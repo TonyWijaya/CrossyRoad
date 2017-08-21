@@ -68,7 +68,7 @@ public class CharController : MonoBehaviour {
 		if (isPlay) { // play button Pressed
 			if (!justDie1 && !justDie2 && !justDie3) { // still alive
 				/* Getting Input */
-				if (Input.GetButtonDown ("up") || Input.GetButtonDown ("down") || Input.GetButtonDown ("right") || Input.GetButtonDown ("left")) {
+				if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) {
 					audioSource.PlayOneShot (jumpSound, 0.2f); // jump SFX
 
 					if (percentage == 1f || !canMove) { // char can move
@@ -77,7 +77,7 @@ public class CharController : MonoBehaviour {
 						firstInput = true;
 						justJump = true;
 
-						if (Input.GetButtonDown ("up")) { // frontward
+						if (Input.GetAxis("Vertical") > 0) { // frontward
 							if (canMove || (nowJump != lastJump)) { // canMove or (stuck, but different direction input)
 								endPosition.x += jumpDistance;
 								canMove = true;	
@@ -87,7 +87,7 @@ public class CharController : MonoBehaviour {
 							lastJump = nowJump;
 
 							gameObject.transform.GetChild (0).rotation = Quaternion.Euler (new Vector3 (270f, 270f, 0f));
-						} else if (Input.GetButtonDown ("down")) { // backward
+						} else if (Input.GetAxis("Vertical") < 0) { // backward
 							nowJump = JumpDirection.down;
 						
 							if (canMove || (nowJump != lastJump)) {
@@ -99,7 +99,7 @@ public class CharController : MonoBehaviour {
 							lastJump = nowJump;
 
 							gameObject.transform.GetChild (0).rotation = Quaternion.Euler (new Vector3 (270f, 90, 0f));
-						} else if (Input.GetButtonDown ("left")) { // left
+						} else if (Input.GetAxis("Horizontal") < 0) { // left
 							nowJump = JumpDirection.left;
 							if (canMove || (nowJump != lastJump)) {
 								if (gameObject.transform.position.z < (roadSideBoundary * jumpDistance)) {
@@ -111,7 +111,7 @@ public class CharController : MonoBehaviour {
 							lastJump = nowJump;
 
 							gameObject.transform.GetChild (0).rotation = Quaternion.Euler (new Vector3 (270f, 180f, 0f)); //right
-						} else if (Input.GetButtonDown ("right")) {
+						} else if (Input.GetAxis("Horizontal") > 0) {
 							nowJump = JumpDirection.right;
 							if (canMove || (nowJump != lastJump)) {
 								if (gameObject.transform.position.z > (-roadSideBoundary * jumpDistance)) {
